@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input[type="text"], 
+    input[type="email"], 
+    input[type="password"], 
+    input[type="date"], 
+    textarea, 
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+
+    .form-group-inline {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .form-group-inline > div {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    .form-group-inline > div:last-child {
+      margin-right: 0;
+    }
+
+    .checkbox-group label {
+      font-weight: normal;
+    }
+
+    .form-group button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .form-group button:hover {
+      background-color: #0056b3;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.9em;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Registration Form</h1>
+    <form id="registrationForm" novalidate>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+        <div class="error" id="nameError"></div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+        <div class="error" id="emailError"></div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+        <div class="error" id="passwordError"></div>
+      </div>
+      <div class="form-group">
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" name="dob" required>
+        <div class="error" id="dobError"></div>
+      </div>
+      <div class="form-group">
+        <label>Gender</label>
+        <div class="form-group-inline">
+          <div>
+            <label><input type="radio" name="gender" value="male" required> Male</label>
+          </div>
+          <div>
+            <label><input type="radio" name="gender" value="female" required> Female</label>
+          </div>
+        </div>
+        <div class="error" id="genderError"></div>
+      </div>
+      <div class="form-group">
+        <label for="address">Address</label>
+        <textarea id="address" name="address" rows="3" required></textarea>
+        <div class="error" id="addressError"></div>
+      </div>
+      <div class="form-group">
+        <label for="preferences">Preferences</label>
+        <select id="preferences" name="preferences">
+          <option value="news">News</option>
+          <option value="updates">Updates</option>
+          <option value="offers">Special Offers</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Interests</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="interests" value="coding"> Coding</label>
+          <label><input type="checkbox" name="interests" value="reading"> Reading</label>
+          <label><input type="checkbox" name="interests" value="sports"> Sports</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit">Register</button>
+      </div>
+    </form>
+  </div>
+  <script>
+    document.getElementById('registrationForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const name = document.getElementById('name');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const dob = document.getElementById('dob');
+    const gender = document.querySelector('input[name="gender"]:checked');
+    const address = document.getElementById('address');
+
+    let isValid = true;
+
+    // Name Validation
+    if (!name.value.trim()) {
+        document.getElementById('nameError').textContent = "Name is required.";
+        isValid = false;
+    } else {
+        document.getElementById('nameError').textContent = "";
+    }
+
+    // Email Validation
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // Matches emails like name@gmail.com
+    if (!email.value.trim() || !emailPattern.test(email.value)) {
+        document.getElementById('emailError').textContent = "Email must be valid (e.g., name@gmail.com).";
+        isValid = false;
+    } else {
+        document.getElementById('emailError').textContent = "";
+    }
+
+    // Password Validation
+    const passwordValue = password.value.trim();
+    const passwordPattern = /^[A-Za-z0-9+\-/*%]+$/; // Only allowed characters, exactly 8 characters long
+    const hasUppercase = /[A-Z]/.test(passwordValue); // At least one uppercase letter
+    const hasNumber = /[0-9]/.test(passwordValue);    // At least one number
+
+    console.log('Password:', passwordValue);
+    console.log('Pattern Matches:', passwordPattern.test(passwordValue));
+    console.log('Has Uppercase:', hasUppercase);
+    console.log('Has Number:', hasNumber);
+
+    if (!passwordValue) {
+        document.getElementById('passwordError').textContent = "Password is required.";
+        isValid = false;
+    } else if (!passwordPattern.test(passwordValue)) {
+        document.getElementById('passwordError').textContent = 
+        "Password must be exactly 8 characters long and only include '+', '-', '/', '*', '%'.";
+        isValid = false;
+    } else if (!hasUppercase) {
+        document.getElementById('passwordError').textContent = 
+        "Password must contain at least one uppercase letter.";
+        isValid = false;
+    } else if (!hasNumber) {
+        document.getElementById('passwordError').textContent = 
+        "Password must contain at least one number.";
+        isValid = false;
+    } else {
+        document.getElementById('passwordError').textContent = "";
+    }
+
+    // Date of Birth Validation
+    if (!dob.value.trim()) {
+        document.getElementById('dobError').textContent = "Date of Birth is required.";
+        isValid = false;
+    } else {
+        document.getElementById('dobError').textContent = "";
+    }
+
+    // Gender Validation
+    if (!gender) {
+        document.getElementById('genderError').textContent = "Gender is required.";
+        isValid = false;
+    } else {
+        document.getElementById('genderError').textContent = "";
+    }
+
+    // Address Validation
+    if (!address.value.trim()) {
+        document.getElementById('addressError').textContent = "Address is required.";
+        isValid = false;
+    } else {
+        document.getElementById('addressError').textContent = "";
+    }
+
+    if (isValid) {
+        alert("Registration Successful!");
+    }
+});
+  </script>
+</body>
+</html>
